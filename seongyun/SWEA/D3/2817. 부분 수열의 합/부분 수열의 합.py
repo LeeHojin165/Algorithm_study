@@ -1,24 +1,23 @@
-def dfs(idx, nums, N, K, k, cnt):
+def dfs(idx, N, K, k, nums):
     if k == K:
-        return cnt + 1
-    elif k > K:
-        return cnt
+        return 1
+    
+    if k > K:
+        return 0
     
     if idx == N:
-        return cnt
+        return 0
     
-    cnt = dfs(idx + 1, nums, N, K, k + nums[idx], cnt)
-    cnt = dfs(idx + 1, nums, N, K, k, cnt)
-    return cnt
+    include = dfs(idx + 1, N, K, k + nums[idx], nums)
+    exclude = dfs(idx + 1, N, K, k, nums)
+    return include + exclude
 
 
 def solve():
     N, K = map(int, input().split())
     nums = list(map(int, input().split()))
     
-    ans = dfs(1, nums, N, K, nums[0], 0)
-    ans = dfs(1, nums, N, K, 0, ans)
-    return ans
+    return dfs(0, N, K, 0, nums)
     
 
 T = int(input())
