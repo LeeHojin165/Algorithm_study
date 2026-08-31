@@ -1,27 +1,24 @@
 def solve():
     N = int(input())
     prob = [list(map(int, input().split())) for _ in range(N)]
-    isFixed = [False] * N
 
-    max_prob = 0
-    def dfs(idx, cur_prob):
-        nonlocal max_prob
+    dp = [0.0] * (1 << N)
+    dp[0] = 1.0
 
+    for mask in range(1 << N):
+        if dp[mask] == 0:
+            continue
+
+        idx = bin(mask).count('1')
         if idx == N:
-            max_prob = max(max_prob, cur_prob)
-            return
+            continue
 
-        if cur_prob <= max_prob:
-            return
+        for j in range(N):
+            if not (mask & (1 << j)):
+                next_mask = mask | (1 << j)
+                dp[next_mask] = max(dp[next_mask], dp[mask] * prob[idx][j] / 100)
 
-        for i in range(N):
-            if not isFixed[i]:
-                isFixed[i] = True
-                dfs(idx + 1, cur_prob * prob[idx][i] / 100)
-                isFixed[i] = False
-
-    dfs(0, 1)
-    return f"{max_prob * 100 :.6f}"
+    return f"{dp[(1 << N) - 1] * 100:.6f}"
 
 
 T = int(input())
