@@ -1,0 +1,39 @@
+from collections import deque
+
+def solve():
+    N = int(input())
+    board = [[] for _ in range(N)]
+
+    st, end = -1, -1
+    for i in range(N):
+        for k in input().strip():
+            board[i].append(int(k))
+            if board[i][-1] == 2:
+                st = (i, len(board[i]) - 1)
+            if board[i][-1] == 3:
+                end = (i, len(board[i]) - 1)
+    
+    dx = (-1, 1, 0, 0)
+    dy = (0, 0, -1, 1)
+
+    q = deque([(st[0], st[1], 0)])
+    visited = [[False for _ in range(N)] for _ in range(N)]
+    visited[st[0]][st[1]] = True
+
+    while q:
+        cx, cy, dist = q.popleft()
+
+        for i in range(4):
+            nx, ny = cx + dx[i], cy + dy[i]
+            if (nx, ny) == end:
+                return dist
+
+            if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny] and board[nx][ny] != 1:
+                q.append((nx, ny, dist + 1))
+                visited[nx][ny] = True
+    
+    return 0
+
+T = int(input())
+for t in range(1, T + 1):
+    print(f"#{t} {solve()}")
