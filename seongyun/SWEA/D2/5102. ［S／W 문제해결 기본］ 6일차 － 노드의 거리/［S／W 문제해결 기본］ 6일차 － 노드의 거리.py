@@ -8,26 +8,23 @@ def solve():
         a, b = map(int, input().split())
         edge[a].append(b)
         edge[b].append(a)
+        
     s, g = map(int, input().split())
 
-    q = deque([s])
+    q = deque([(s, 0)])
     visited = [False] * (v + 1)
     visited[s] = True
 
-    level = 0
     while q:
-        level += 1
-        length = len(q)
+        cur, dist = q.popleft()
 
-        for _ in range(length):
-            cur = q.popleft()
-
-            for node in edge[cur]:
-                if not visited[node]:
-                    q.append(node)
-                    visited[node] = True
-                    if node == g:
-                        return level
+        for node in edge[cur]:
+            if node == g:
+                return dist + 1
+            
+            if not visited[node]:
+                q.append((node, dist + 1))
+                visited[node] = True
 
     return 0
 
