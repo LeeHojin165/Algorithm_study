@@ -16,8 +16,7 @@ def solve():
     dy = (0, 0, -1, 1)
 
     q = deque([(st[0], st[1], 0)])
-    visited = [[False for _ in range(N)] for _ in range(N)]
-    visited[st[0]][st[1]] = True
+    board[st[0]][st[1]] = 1
 
     while q:
         cx, cy, dist = q.popleft()
@@ -27,9 +26,9 @@ def solve():
             if (nx, ny) == end:
                 return dist
 
-            if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny] and board[nx][ny] != 1:
+            if 0 <= nx < N and 0 <= ny < N and board[nx][ny] != 1:
                 q.append((nx, ny, dist + 1))
-                visited[nx][ny] = True
+                board[nx][ny] = 1
     
     return 0
 
