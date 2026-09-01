@@ -2,16 +2,15 @@ from collections import deque
 
 def solve():
     N = int(input())
-    board = [[] for _ in range(N)]
+    board = [list(map(int, input().strip())) for _ in range(N)]
 
-    st, end = -1, -1
+    st, end = None, None
     for i in range(N):
-        for k in input().strip():
-            board[i].append(int(k))
-            if board[i][-1] == 2:
-                st = (i, len(board[i]) - 1)
-            if board[i][-1] == 3:
-                end = (i, len(board[i]) - 1)
+        for j in range(N):
+            if board[i][j] == 2:
+                st = (i, j)
+            elif board[i][j] == 3:
+                end = (i, j)
     
     dx = (-1, 1, 0, 0)
     dy = (0, 0, -1, 1)
