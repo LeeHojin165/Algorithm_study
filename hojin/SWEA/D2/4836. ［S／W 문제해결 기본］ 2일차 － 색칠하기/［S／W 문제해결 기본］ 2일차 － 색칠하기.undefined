@@ -1,20 +1,30 @@
 T = int(input())
-# 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
+
+
 for test_case in range(1, T + 1):
-    N = int(input())
+    n = int(input()) # num of colored square
+    squares = [list(map(int, input().split())) for _ in range(n)]
+    purpleCnt = 0
 
-    color_map = [[0] * 10 for _ in range(10)]
-    result_sum = 0
+    # 격자판 10x10
+    board = [[0] * 10 for _ in range(10)]
+    for i in range(n):
+        startRow = squares[i][0]
+        startCol = squares[i][1]
+        endRow = squares[i][2]
+        endCol = squares[i][3]
+        if squares[i][4] == 1: # 빨강이라면
+            for row in range(startRow, endRow+1):
+                for col in range(startCol, endCol+1):
+                    board[row][col] += 1
+                    if board[row][col] == 3:
+                        purpleCnt += 1
 
-    # map 색칠하기 
-    for num in range(N):
-        start_x, start_y, end_x, end_y, color = map(int, input().split())
+        else:
+            for row in range(startRow, endRow+1):
+                for col in range(startCol, endCol+1):
+                    board[row][col] += 2
+                    if board[row][col] == 3:
+                        purpleCnt += 1
 
-        for i in range(start_x, end_x + 1):
-            for j in range(start_y, end_y + 1):
-                color_map[i][j] += color
-
-                if color_map[i][j] == 3:
-                    result_sum += 1
-
-    print(f"#{test_case} {result_sum}")
+    print(f'#{test_case} {purpleCnt}')
