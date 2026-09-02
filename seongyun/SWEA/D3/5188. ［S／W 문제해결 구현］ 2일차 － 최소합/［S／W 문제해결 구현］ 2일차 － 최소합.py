@@ -1,36 +1,22 @@
-import heapq
-
 def solve():
     N = int(input())
     board = []
-    for _ in range(N):
-        board += list(map(int, input().split()))
+    board = [list(map(int, input().split())) for _ in range(N)]
 
-    INF = float('inf')
-    dist = [INF] * (N * N)
-    dist[0] = board[0]
-    pq = [(board[0], 0)]
+    dp = [[0] * N for _ in range(N)]
+    dp[0][0] = board[0][0]
 
-    while pq:
-        cur_cost, u = heapq.heappop(pq)
+    for i in range(1, N):
+        dp[i][0] = dp[i - 1][0] + board[i][0]
 
-        if cur_cost > dist[u]:
-            continue
+    for j in range(1, N):
+        dp[0][j] = dp[0][j - 1] + board[0][j]
 
-        if u % N != N - 1:
-            next_cost = cur_cost + board[u + 1]
-
-            if next_cost < dist[u + 1]:
-                dist[u + 1] = next_cost
-                heapq.heappush(pq, (next_cost, u + 1))
-        if u < N * (N - 1):
-            next_cost = cur_cost + board[u + N]
-
-            if next_cost < dist[u + N]:
-                dist[u + N] = next_cost
-                heapq.heappush(pq, (next_cost, u + N))
+    for i in range(1, N):
+        for j in range(1, N):
+            dp[i][j] = min(dp[i - 1][j], dp[i][j - 1]) + board[i][j]
     
-    return dist[(N * N - 1)]
+    return dp[N - 1][N - 1]
 
 T = int(input())
 for t in range(1, T + 1):
