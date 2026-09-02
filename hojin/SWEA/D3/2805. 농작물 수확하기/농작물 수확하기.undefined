@@ -1,0 +1,34 @@
+def sum_column(arr, row, start_idx, end_idx):
+    sum_result = 0
+
+    for j in range(start_idx, end_idx):
+        sum_result += arr[row][j]
+
+    return sum_result
+
+T = int(input())
+# 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
+for test_case in range(1, T + 1):
+    N = int(input())
+
+    value_map = [[0] * N for _ in range(N)]
+
+    for i in range(N):
+        input_str = input()
+        for j in range(N):
+            value_map[i][j] = int(input_str[j])
+
+    total_result = 0
+
+    for i in range(N // 2 + 1):
+
+        if i == (N // 2): # 중간 행 -> 전체 
+            total_result += sum_column(value_map, i, 0, N)
+        else:
+            color_count = 2 * i + 1 # 해당 행에서 칠해야 하는 칸의 개수
+            color_start_idx = (N - color_count) // 2
+
+            total_result += sum_column(value_map, i, color_start_idx, N - color_start_idx)
+            total_result += sum_column(value_map, N - i - 1, color_start_idx, N - color_start_idx) # 중간 행 기준으로 위 아래 대칭 
+
+    print(f"#{test_case} {total_result}")
