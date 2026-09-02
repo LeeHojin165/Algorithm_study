@@ -1,0 +1,34 @@
+for i in range(10):
+    test_case = int(input())
+
+    ladder_map = [list(map(int, input().split())) for _ in range(100)]
+
+    dx = [-1, 0, 0]
+    dy = [0, 1, -1]
+
+    end_position = (0, 0)
+    for j in range(100):
+        if ladder_map[99][j] == 2:
+            end_position = (99, j)
+
+
+    cur_x, cur_y = end_position
+    cur_direction = 0
+
+    while cur_x > 0:
+        cur_x = cur_x + dx[cur_direction]
+        cur_y = cur_y + dy[cur_direction]
+
+        if cur_direction == 0:
+            if (0 <= cur_x + dx[1] < 100) and (0 <= cur_y + dy[1] < 100) and ladder_map[cur_x + dx[1]][cur_y + dy[1]] == 1:
+                cur_direction = 1
+            elif (0 <= cur_x + dx[2] < 100) and (0 <= cur_y + dy[2] < 100) and ladder_map[cur_x + dx[2]][cur_y + dy[2]] == 1:
+                cur_direction = 2
+        elif cur_direction == 1:
+            if (0 <= cur_x + dx[0] < 100) and (0 <= cur_y + dy[0] < 100) and ladder_map[cur_x + dx[0]][cur_y + dy[0]] == 1:
+                cur_direction = 0
+        elif cur_direction == 2:
+            if (0 <= cur_x + dx[0] < 100) and (0 <= cur_y + dy[0] < 100) and ladder_map[cur_x + dx[0]][cur_y + dy[0]] == 1:
+                cur_direction = 0
+
+    print(f"#{test_case} {cur_y}")
