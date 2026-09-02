@@ -1,20 +1,10 @@
-def search_double_colored(arr):
-    sum_colored = 0
-
-    for i in range(10):
-        for j in range(10):
-            if arr[i][j] == 3: # 색상이 겹쳐 있는 곳: 1(빨강) + 2(파랑)
-                sum_colored += 1
-
-    return sum_colored
-
-
 T = int(input())
 # 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
 for test_case in range(1, T + 1):
     N = int(input())
 
     color_map = [[0] * 10 for _ in range(10)]
+    result_sum = 0
 
     # map 색칠하기 
     for num in range(N):
@@ -24,5 +14,7 @@ for test_case in range(1, T + 1):
             for j in range(start_y, end_y + 1):
                 color_map[i][j] += color
 
-    result_sum = search_double_colored(color_map)
+                if color_map[i][j] == 3:
+                    result_sum += 1
+
     print(f"#{test_case} {result_sum}")
