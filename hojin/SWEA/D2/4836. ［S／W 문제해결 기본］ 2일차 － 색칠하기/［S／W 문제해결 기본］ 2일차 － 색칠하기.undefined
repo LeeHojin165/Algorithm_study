@@ -1,0 +1,48 @@
+from collections import deque
+
+def search_double_colored(arr):
+    sum_colored = 0
+
+    is_visited = [[0] * 10 for _ in range(10)]
+    search_queue = deque()
+
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+
+    search_queue.append((0, 0))
+    is_visited[0][0] = 1
+
+    while search_queue:
+        cur_x, cur_y = search_queue.popleft()
+
+        if arr[cur_x][cur_y] == 3: # 색상이 겹쳐 있는 곳: 1(빨강) + 2(파랑)
+            sum_colored += 1
+
+        for i in range(4):
+            new_x = cur_x + dx[i]
+            new_y = cur_y + dy[i]
+
+            if 0 <= new_x < 10 and 0 <= new_y < 10 and is_visited[new_x][new_y] == 0:
+                search_queue.append((new_x, new_y))
+                is_visited[new_x][new_y] = 1
+
+    return sum_colored
+
+
+T = int(input())
+# 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
+for test_case in range(1, T + 1):
+    N = int(input())
+
+    color_map = [[0] * 10 for _ in range(10)]
+
+    # map 색칠하기 
+    for num in range(N):
+        start_x, start_y, end_x, end_y, color = map(int, input().split())
+
+        for i in range(start_x, end_x + 1):
+            for j in range(start_y, end_y + 1):
+                color_map[i][j] += color
+
+    result_sum = search_double_colored(color_map)
+    print(f"#{test_case} {result_sum}")
