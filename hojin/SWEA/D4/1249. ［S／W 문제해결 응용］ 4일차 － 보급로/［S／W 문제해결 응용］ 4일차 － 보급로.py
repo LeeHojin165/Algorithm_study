@@ -24,6 +24,8 @@ for test_case in range(1, T + 1):
         dr = [-1, 1, 0, 0]
         dc = [0, 0, -1, 1]
 
+        if time > distance[r][c]:
+            continue
         if r == N-1 and c == N-1:
             min_time = time
             break
