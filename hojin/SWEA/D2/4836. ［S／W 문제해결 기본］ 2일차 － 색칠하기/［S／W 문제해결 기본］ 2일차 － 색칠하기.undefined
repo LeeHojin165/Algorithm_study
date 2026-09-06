@@ -1,0 +1,30 @@
+T = int(input())
+
+
+for test_case in range(1, T + 1):
+    n = int(input()) # num of colored square
+    squares = [list(map(int, input().split())) for _ in range(n)]
+    purpleCnt = 0
+
+    # 격자판 10x10
+    board = [[0] * 10 for _ in range(10)]
+    for i in range(n):
+        startRow = squares[i][0]
+        startCol = squares[i][1]
+        endRow = squares[i][2]
+        endCol = squares[i][3]
+        if squares[i][4] == 1: # 빨강이라면
+            for row in range(startRow, endRow+1):
+                for col in range(startCol, endCol+1):
+                    board[row][col] += 1
+                    if board[row][col] == 3:
+                        purpleCnt += 1
+
+        else:
+            for row in range(startRow, endRow+1):
+                for col in range(startCol, endCol+1):
+                    board[row][col] += 2
+                    if board[row][col] == 3:
+                        purpleCnt += 1
+
+    print(f'#{test_case} {purpleCnt}')

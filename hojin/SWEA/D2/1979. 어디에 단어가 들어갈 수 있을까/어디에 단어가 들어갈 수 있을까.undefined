@@ -1,0 +1,29 @@
+def find_word_in_puzzle(puzzle, N, K):
+    result_sum = 0
+
+    for i in range(N):
+        for j in range(N - K + 1):
+            if sum(puzzle[i][j : j + K]) != K:
+                continue
+            if (j <= 0 or puzzle[i][j - 1] == 0) and ((j + K) >= N or puzzle[i][j + K] == 0):
+                result_sum += 1
+
+    return result_sum
+
+T = int(input())
+# 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
+for test_case in range(1, T + 1):
+    N, K = map(int, input().split())
+
+    puzzle = [list(map(int, input().split())) for _ in range(N)]
+    search_word = "".join(map(str, [1]*3))
+
+    result_sum = 0
+
+    result_sum += find_word_in_puzzle(puzzle, N, K)
+
+    rotated_puzzle = [row for row in zip(*puzzle[::-1])]
+
+    result_sum += find_word_in_puzzle(rotated_puzzle, N, K)
+
+    print(f"#{test_case} {result_sum}")

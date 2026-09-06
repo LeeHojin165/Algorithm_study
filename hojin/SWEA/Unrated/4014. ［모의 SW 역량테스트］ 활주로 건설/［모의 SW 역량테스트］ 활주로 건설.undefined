@@ -1,0 +1,62 @@
+def check_flight(line, N, X):
+    used = [False] * N
+
+    for i in range(N - 1):
+
+        if line[i] == line[i + 1]: # 높이가 같으면 문제 없음
+            continue
+
+        if abs(line[i] - line[i + 1]) > 1: # 높이 차이가 2 이상이면 불가능
+            return False
+
+        if line[i] < line[i + 1]: # 오르막
+            height = line[i]
+
+            for j in range(i - X + 1, i + 1):
+                if j < 0:
+                    return False
+
+                if line[j] != height:
+                    return False
+
+                if used[j]: # 동일 공간에서 이미 다른 경사로가 사용 중 
+                    return False
+
+                used[j] = True
+
+        else:  # 내리막
+            height = line[i + 1]
+
+            for j in range(i + 1, i + X + 1):
+                if j >= N:
+                    return False
+
+                if line[j] != height:
+                    return False
+
+                if used[j]:
+                    return False
+
+                used[j] = True
+
+    return True
+
+
+
+T = int(input())
+# 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
+for test_case in range(1, T + 1):
+    N, x = map(int, input().split())
+    flight_map = [list(map(int, input().split())) for _ in range(N)]
+
+    result_sum = 0
+
+    for i in range(N):
+        result_sum += check_flight(flight_map[i], N, x)
+
+    flight_map_rotated = [row for row in zip(*flight_map[::-1])] # 열을 행으로 90도 회전해서 확인 
+
+    for i in range(N):
+        result_sum += check_flight(flight_map_rotated[i], N, x)
+
+    print(f"#{test_case} {result_sum}")
