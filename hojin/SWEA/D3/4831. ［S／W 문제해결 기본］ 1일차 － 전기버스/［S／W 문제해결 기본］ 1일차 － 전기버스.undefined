@@ -1,0 +1,33 @@
+
+
+T = int(input())
+# 여러개의 테스트 케이스가 주어지므로, 각각을 처리합니다.
+for test_case in range(1, T + 1):
+    max_move, move_distance, stops_num = map(int, input().split())
+    stops = list(map(int, input().split()))
+    stops_to_onehot = [0] * 101
+
+    for stop in stops:
+        stops_to_onehot[stop] = 1
+
+    cur = 0
+    result_charge = 0
+    while cur <= move_distance:
+        if (cur + max_move) >= move_distance:
+            break
+
+        new_move_distance = 0
+
+        for i in range(max_move, 0, -1):
+            if stops_to_onehot[cur + i] == 1:
+                new_move_distance = i
+                break
+
+        if new_move_distance == 0:
+            result_charge = 0
+            break
+
+        cur += new_move_distance
+        result_charge += 1
+
+    print(f"#{test_case} {result_charge}")
